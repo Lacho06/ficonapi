@@ -54,6 +54,10 @@ class DatabaseSeeder extends Seeder
             }
 
             Payroll::factory(1)->create([
+                'buildedBy' => 1,
+                'reviewBy' => 2,
+                'approvedBy' => 3,
+                'doneBy' => 4,
                 'prepayroll_id' => $prepayroll->id
             ])->each(function ($payroll){
                 for($i = 1; $i <= 30; $i++){

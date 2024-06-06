@@ -10,8 +10,28 @@ class Payroll extends Model
     use HasFactory;
 
     protected $fillable = [
-        'prepayroll_id'
+        'buildedBy',
+        'reviewBy',
+        'approvedBy',
+        'doneBy',
+        'prepayroll_id',
     ];
+
+    public function buildedByUser(){
+        return $this->belongsTo(User::class, 'buildedBy');
+    }
+
+    public function reviewByUser(){
+        return $this->belongsTo(User::class, 'reviewBy');
+    }
+
+    public function approvedByUser(){
+        return $this->belongsTo(User::class, 'approvedBy');
+    }
+
+    public function doneByUser(){
+        return $this->belongsTo(User::class, 'doneBy');
+    }
 
     public function payrollWorkers(){
         return $this->hasMany(PayrollWorker::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payroll;
 use App\Models\PrePayroll;
 use App\Models\PrePayrollWorker;
 use App\Models\Worker;
@@ -12,6 +13,27 @@ class PrePayrollController extends Controller
     public function index(){
         $prePayrolls = PrePayroll::all();
         return response()->json($prePayrolls, 200);
+    }
+
+    public function listReserved(){
+        $prePayrolls = PrePayroll::all();
+        $payrolls = Payroll::all();
+        $response = [];
+
+        foreach($prePayrolls as $prePayroll){
+            $isAdded = false;
+            foreach($payrolls as $payroll){
+                if($prePayroll->id === $payroll->prepayroll->id){
+                    $isAdded = true;
+                }
+            }
+            if(!$isAdded){
+                array_push($response, $prePayroll);
+            }
+            $isAdded = false;
+        }
+
+        return response()->json($response, 200);
     }
 
     public function showWorkers($id){
@@ -77,7 +99,7 @@ class PrePayrollController extends Controller
 
     public function storePrePayrollWorker(Request $request){
         $prePayroll = PrePayroll::find($request->prepayrollId);
-        $worker = Worker::find($request->workerId);
+        $worker = Worker::where('ci', $request->workerId)->first();
 
         $newPrePayrollWorker = PrePayrollWorker::create([
             'hoursWorked' => $request->hTrab,

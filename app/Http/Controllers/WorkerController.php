@@ -11,7 +11,18 @@ class WorkerController extends Controller
 {
     public function index(){
         $workers = Worker::all();
-        return response()->json($workers, 200);
+        $response = [];
+        foreach($workers as $worker){
+            array_push($response, [
+                'code' => $worker->code,
+                'name' => $worker->name,
+                'ci' => $worker->ci,
+                'category' => $worker->category,
+                'occupationId' => $worker->occupation->id,
+                'departmentCode' => $worker->department->code,
+            ]);
+        }
+        return response()->json($response, 200);
     }
 
     public function show($code){

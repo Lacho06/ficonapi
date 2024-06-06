@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 // ----- Users -----
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/user', [UserController::class, 'store']);
+Route::put('/user/{user}', [UserController::class, 'update']);
+Route::delete('/user/{user}', [UserController::class, 'destroy']);
 
 
 // ----- Workers -----
@@ -56,6 +59,7 @@ Route::delete('/tax/{id}', [TaxController::class, 'destroy']);
 
 // ----- PrePayrolls -----
 Route::get('/prepayrolls', [PrePayrollController::class, 'index']);
+Route::get('/prepayrolls/notAdded', [PrePayrollController::class, 'listReserved']);
 Route::get('/prepayroll/workers/{id}', [PrePayrollController::class, 'showWorkers']);
 Route::post('/prepayroll', [PrePayrollController::class, 'store']);
 Route::post('/prepayroll/worker', [PrePayrollController::class, 'storePrePayrollWorker']);

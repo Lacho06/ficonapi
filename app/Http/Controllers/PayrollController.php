@@ -20,6 +20,10 @@ class PayrollController extends Controller
                 'id' => $payroll->id,
                 'month' => $payroll->prepayroll->month,
                 'year' => $payroll->prepayroll->year,
+                'buildedBy' => $payroll->buildedByUser,
+                'reviewBy' => $payroll->reviewByUser,
+                'approvedBy' => $payroll->approvedByUser,
+                'doneBy' => $payroll->doneByUser,
                 'workers' => $payroll->payrollWorkers,
             ]);
         }
@@ -69,6 +73,10 @@ class PayrollController extends Controller
         return response()->json([
             'month' => $payroll->prepayroll->month,
             'year' => $payroll->prepayroll->year,
+            'buildedBy' => $payroll->buildedByUser,
+            'reviewBy' => $payroll->reviewByUser,
+            'approvedBy' => $payroll->approvedByUser,
+            'doneBy' => $payroll->doneByUser,
             'workers' => $sortedWorkers->values()->all(),
         ], 200);
     }
@@ -77,7 +85,11 @@ class PayrollController extends Controller
         $prepayroll = PrePayroll::where('month', $request->month)->where('year', $request->year)->first();
 
         $newPayroll = Payroll::create([
-            'prepayroll_id' => $prepayroll->id
+            'buildedBy' => $request->buildedBy,
+            'reviewBy' => $request->reviewBy,
+            'approvedBy' => $request->approvedBy,
+            'doneBy' => $request->doneBy,
+            'prepayroll_id' => $prepayroll->id,
         ]);
 
         foreach($request->workers as $payrollWorker){

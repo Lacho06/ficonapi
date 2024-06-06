@@ -44,4 +44,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function builded(){
+        return $this->hasMany(Payroll::class, 'buildedBy');
+    }
+
+    public function review(){
+        return $this->hasMany(Payroll::class, 'reviewBy');
+    }
+
+    public function approved(){
+        return $this->hasMany(Payroll::class, 'approvedBy');
+    }
+
+    public function done(){
+        return $this->hasMany(Payroll::class, 'doneBy');
+    }
 }
